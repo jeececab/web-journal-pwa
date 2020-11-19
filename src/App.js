@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import PrivateRoute from './components/PrivateRoute';
 import Entries from './pages/Entries';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -36,6 +37,9 @@ const App = () => {
             </Route>
             <Route path="/login">
               <Login />
+            </Route>
+            <Route path="/signup">
+              <Signup />
             </Route>
             <PrivateRoute path="/entries">
               <Entries />

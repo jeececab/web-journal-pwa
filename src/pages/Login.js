@@ -9,7 +9,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      history.push('/entries');
+      history.replace('/entries');
     }
     // eslint-disable-next-line
   }, []);
