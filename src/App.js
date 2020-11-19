@@ -1,10 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import AuthContext from './contexts/AuthContext';
+import { me } from './api/user';
+
+import Home from './pages/Home';
+import PrivateRoute from './components/PrivateRoute';
+import Entries from './pages/Entries';
+import Login from './pages/Login';
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const result = await me();
+
+      if (result.user) {
+        setUser(result.user);
+      }
+
+      setLoading(false);
+    }
+
+    fetchUser();
+  }, []);
+
   return (
-    <div className="container mx-auto bg-gray-800">
-      <h1 className="font-sans text-5xl text-gray-50">Hello world</h1>
-    </div>
+    <AuthContext.Provider value={{ user }}>
+      {!loading && (
+        <div className="container mx-auto h-screen">
+          <Router>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <PrivateRoute path="/entries">
+              <Entries />
+            </PrivateRoute>
+          </Router>
+        </div>
+      )}
+
+      {loading && <p>loading...</p>}
+    </AuthContext.Provider>
   );
 };
 
