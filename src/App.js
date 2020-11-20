@@ -28,7 +28,7 @@ const App = () => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {!loading && (
         <div className="container mx-auto h-screen">
           <Router>
