@@ -5,7 +5,7 @@ import { me } from './api/user';
 
 import Home from './pages/Home';
 import PrivateRoute from './components/PrivateRoute';
-import Entries from './pages/Entries';
+import Posts from './pages/Posts';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
@@ -41,8 +41,8 @@ const App = () => {
             <Route path="/signup">
               <Signup />
             </Route>
-            <PrivateRoute path="/entries">
-              <Entries />
+            <PrivateRoute path="/posts">
+              <Posts />
             </PrivateRoute>
           </Router>
         </div>

@@ -27,12 +27,12 @@ const Home = () => {
           <>
             <Link
               className="block w-40 border-gray-50 border-2 my-4 mx-auto py-2 bg-gray-50 text-gray-800"
-              to="/entries/new"
+              to="/posts/new"
             >
-              Add entry
+              Add post
             </Link>
-            <Link className="block w-40 border-gray-50 border-2 my-4 mx-auto py-2" to="/entries">
-              Entries
+            <Link className="block w-40 border-gray-50 border-2 my-4 mx-auto py-2" to="/posts">
+              Posts
             </Link>
           </>
         )}

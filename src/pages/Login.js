@@ -10,7 +10,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      history.replace('/entries');
+      history.replace('/posts');
     }
     // eslint-disable-next-line
   }, [user]);
@@ -33,7 +33,7 @@ const Login = () => {
       {!user && (
         <div>
           <h2 className="text-3xl my-4 text-center">Login</h2>
-          <form onSubmit={handleSubmit} className="mx-auto">
+          <form onSubmit={handleSubmit} className="mx-auto w-11/12 max-w-md">
             <input
               className="block my-3 mx-auto px-2 py-1 text-gray-800"
               type="email"

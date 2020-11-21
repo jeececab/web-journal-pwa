@@ -10,7 +10,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (user) {
-      history.replace('/entries');
+      history.replace('/posts');
     }
     // eslint-disable-next-line
   }, [user]);

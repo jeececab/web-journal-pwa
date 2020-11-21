@@ -1,6 +1,6 @@
 export const signup = async (username, first_name, last_name, email, password) => {
   try {
-    const response = await fetch(`http://localhost:5000/users`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -19,7 +19,7 @@ export const signup = async (username, first_name, last_name, email, password) =
 
 export const login = async (email, password) => {
   try {
-    const response = await fetch(`http://localhost:5000/users/login`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/users/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ export const login = async (email, password) => {
 
 export const me = async () => {
   try {
-    const response = await fetch(`http://localhost:5000/users/me`, { credentials: 'include' });
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/users/me`, { credentials: 'include' });
     const data = await response.json();
 
     return data;
