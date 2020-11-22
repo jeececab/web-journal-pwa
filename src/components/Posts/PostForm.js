@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { createPost, fetchPost, updatePost } from '../../api/post';
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
+import LoadingSpinner from '../LoadingSpinner';
 
 const PostForm = () => {
   const { postId } = useParams();
@@ -98,7 +100,7 @@ const PostForm = () => {
 
   return (
     <>
-      {loading && <p>Loading...</p>}
+      {loading && <LoadingSpinner />}
 
       {!loading && (
         <div className="mx-auto w-11/12 max-w-md pb-10">
@@ -251,14 +253,17 @@ const PostForm = () => {
             )}
 
             <div className="flex items-center">
-              <div onClick={back} className="text-4xl w-10">
-                ⬅
+              <div onClick={back} className="text-5xl w-10 text-green-600 hover:text-green-500 cursor-pointer">
+                <FaArrowAltCircleLeft />
               </div>
-              <button type="submit" className="block w-40 border-green-600 text-green-600 font-bold text-xl border-2 my-4 mx-auto py-2">
+              <button
+                type="submit"
+                className="block w-40 border-green-600 hover:border-green-500 text-green-600 hover:text-green-500 font-bold text-xl border-2 my-4 mx-auto py-2"
+              >
                 Save
               </button>
-              <div onClick={forward} className="text-4xl w-10">
-                {postId < today && '➡'}
+              <div onClick={forward} className="text-5xl w-10 text-green-600 hover:text-green-500 cursor-pointer">
+                {postId < today && <FaArrowAltCircleRight />}
               </div>
             </div>
           </form>

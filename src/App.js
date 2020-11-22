@@ -9,6 +9,7 @@ import Posts from './pages/Posts';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Header from './components/Header';
+import LoadingSpinner from './components/LoadingSpinner';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -31,7 +32,7 @@ const App = () => {
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       {!loading && (
-        <div className="container mx-auto">
+        <div className="container mx-auto max-w-6xl">
           <Router>
             <Header />
             <div className="pt-12">
@@ -52,7 +53,7 @@ const App = () => {
         </div>
       )}
 
-      {loading && <p>loading...</p>}
+      {loading && <LoadingSpinner />}
     </AuthContext.Provider>
   );
 };
