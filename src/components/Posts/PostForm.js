@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { createPost, fetchPost } from '../../api/post';
+import { createPost, fetchPost, updatePost } from '../../api/post';
 
 const PostForm = () => {
   const { postId } = useParams();
@@ -16,9 +16,13 @@ const PostForm = () => {
     video_title: '',
     video_link: '',
     video_time_count: '',
+    project_title: '',
+    project_time: '',
     meditation_time: '',
     to_learn: ''
   });
+
+  const today = new Date().toLocaleString('en-CA', { timeZone: 'America/New_York' }).split(',')[0];
 
   async function submitPost(e) {
     e.preventDefault();
@@ -29,6 +33,9 @@ const PostForm = () => {
       const result = await createPost(day);
       if (!result.post) return setError(result.error);
       history.push(`/posts/${result.post._id}`);
+    } else {
+      const result = await updatePost(postId, day);
+      if (!result.post) return result.error;
     }
     setLoading(false);
   }
@@ -37,7 +44,7 @@ const PostForm = () => {
     const result = await fetchPost(_id);
 
     if (!result.post) {
-      history.push('/posts/new');
+      setDate(_id);
     } else {
       setDay(result.post);
       setDate(result.post._id);
@@ -48,13 +55,15 @@ const PostForm = () => {
 
   useEffect(() => {
     if (postId === 'new') {
-      const today = new Date();
-      const dateString = today.toISOString().split('T')[0];
-      setDate(dateString);
-      setDay({ ...day, _id: dateString });
-      setLoading(false);
+      setDate(today);
+      setDay({ ...day, _id: today });
+      getPost(today);
     } else {
-      getPost(postId);
+      if (postId > today) {
+        history.push('/posts/new');
+      } else {
+        getPost(postId);
+      }
     }
     //eslint-disable-next-line
   }, [postId]);
@@ -64,7 +73,7 @@ const PostForm = () => {
       {loading && <p>Loading...</p>}
 
       {!loading && (
-        <div className="mx-auto w-11/12 max-w-md">
+        <div className="mx-auto w-11/12 max-w-md pb-10">
           <h2 className="text-center text-2xl my-4">{date}</h2>
 
           <form onSubmit={submitPost}>
@@ -137,7 +146,7 @@ const PostForm = () => {
             </p>
 
             <p>
-              <label htmlFor="video_time_count">How long did I watch</label>
+              <label htmlFor="video_time_count">How long did I watch (minutes):</label>
               <input
                 id="video_time_count"
                 value={day.video_time_count}
@@ -151,7 +160,7 @@ const PostForm = () => {
             </p>
 
             <p>
-              <label htmlFor="meditation_time">How long I meditated</label>
+              <label htmlFor="meditation_time">How long I meditated (minutes):</label>
               <input
                 id="meditation_time"
                 value={day.meditation_time}
@@ -165,7 +174,35 @@ const PostForm = () => {
             </p>
 
             <p>
-              <label htmlFor="to_learn">What I want to learn</label>
+              <label htmlFor="project_title">The project I'm working on:</label>
+              <input
+                id="project_title"
+                value={day.project_title}
+                onChange={e => setDay({ ...day, project_title: e.target.value })}
+                className="w-full mb-3 mx-auto px-2 py-1 text-gray-800"
+                name="project_title"
+                placeholder="Project I'm working on"
+                type="text"
+                maxLength="200"
+              />
+            </p>
+
+            <p>
+              <label htmlFor="project_time">How long I worked on the project (minutes):</label>
+              <input
+                id="project_time"
+                value={day.project_time}
+                onChange={e => setDay({ ...day, project_time: Number(e.target.value) })}
+                className="w-full mb-3 mx-auto px-2 py-1 text-gray-800"
+                name="project_time"
+                placeholder="How long I worked on the project"
+                type="number"
+                min="0"
+              />
+            </p>
+
+            <p>
+              <label htmlFor="to_learn">What I want to learn:</label>
               <textarea
                 id="to_learn"
                 value={day.to_learn}

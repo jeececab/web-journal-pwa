@@ -27,3 +27,22 @@ export const fetchPost = async _id => {
     return error.message;
   }
 };
+
+export const updatePost = async (_id, payload) => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/posts/${_id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    return error.message;
+  }
+};
