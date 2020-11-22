@@ -7,20 +7,22 @@ const PostForm = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [saved, setSaved] = useState(false);
   const [date, setDate] = useState('');
-  const [day, setDay] = useState({
+  const defaultDay = {
     _id: '',
     notes: '',
     book_title: '',
-    book_page_count: '',
+    book_page_count: 0,
     video_title: '',
     video_link: '',
-    video_time_count: '',
+    video_time_count: 0,
     project_title: '',
-    project_time: '',
-    meditation_time: '',
+    project_time: 0,
+    meditation_time: 0,
     to_learn: ''
-  });
+  };
+  const [day, setDay] = useState(defaultDay);
 
   const today = new Date().toLocaleString('en-CA', { timeZone: 'America/New_York' }).split(',')[0];
 
@@ -33,24 +35,52 @@ const PostForm = () => {
       const result = await createPost(day);
       if (!result.post) return setError(result.error);
       history.push(`/posts/${result.post._id}`);
+      setTimeout(() => {
+        setSaved(false);
+      }, 3000);
     } else {
       const result = await updatePost(postId, day);
       if (!result.post) return result.error;
+      setTimeout(() => {
+        setSaved(false);
+      }, 3000);
     }
     setLoading(false);
+    setSaved(true);
   }
 
   async function getPost(_id) {
+    setLoading(true);
+
     const result = await fetchPost(_id);
 
     if (!result.post) {
       setDate(_id);
+      setDay(defaultDay);
     } else {
       setDay(result.post);
       setDate(result.post._id);
     }
 
     setLoading(false);
+  }
+
+  function back() {
+    const splitDate = postId.split('-');
+    const mmddyyyy = `${splitDate[1]}/${splitDate[2]}/${splitDate[0]}`;
+    const dateObj = new Date(mmddyyyy);
+    dateObj.setDate(dateObj.getDate() - 1);
+    const yesterday = dateObj.toLocaleString('en-CA', { timeZone: 'America/New_York' }).split(',')[0];
+    history.push(`/posts/${yesterday}`);
+  }
+
+  function forward() {
+    const splitDate = postId.split('-');
+    const mmddyyyy = `${splitDate[1]}/${splitDate[2]}/${splitDate[0]}`;
+    const dateObj = new Date(mmddyyyy);
+    dateObj.setDate(dateObj.getDate() + 1);
+    const yesterday = dateObj.toLocaleString('en-CA', { timeZone: 'America/New_York' }).split(',')[0];
+    history.push(`/posts/${yesterday}`);
   }
 
   useEffect(() => {
@@ -214,13 +244,25 @@ const PostForm = () => {
               />
             </p>
 
-            {error && <p className="text-red-600 my-3 text-center">{error}</p>}
+            {error && <p className="text-red-600 mt-2 mb-1 text-center">{error}</p>}
 
-            <p>
+            {saved && (
+              <div className="bg-green-600 fixed  bottom-0 left-0 w-full pt-1 pb-2">
+                <p className="text-white mt-2 mb-1 text-center text-lg">Saved!</p>
+              </div>
+            )}
+
+            <div className="flex items-center">
+              <div onClick={back} className="text-4xl w-10">
+                ⬅
+              </div>
               <button type="submit" className="block w-40 border-gray-50 border-2 my-4 mx-auto py-2">
                 Save
               </button>
-            </p>
+              <div onClick={forward} className="text-4xl w-10">
+                {postId < today && '➡'}
+              </div>
+            </div>
           </form>
         </div>
       )}
