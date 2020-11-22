@@ -8,6 +8,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Posts from './pages/Posts';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Header from './components/Header';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -30,20 +31,23 @@ const App = () => {
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       {!loading && (
-        <div className="container mx-auto h-screen">
+        <div className="container mx-auto">
           <Router>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <PrivateRoute path="/posts">
-              <Posts />
-            </PrivateRoute>
+            <Header />
+            <div className="pt-12">
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/signup">
+                <Signup />
+              </Route>
+              <PrivateRoute path="/posts">
+                <Posts />
+              </PrivateRoute>
+            </div>
           </Router>
         </div>
       )}

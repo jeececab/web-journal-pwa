@@ -26,6 +26,10 @@ const PostForm = () => {
 
   const today = new Date().toLocaleString('en-CA', { timeZone: 'America/New_York' }).split(',')[0];
 
+  const splitDate = postId === 'new' ? today.split('-') : postId.split('-');
+  const mmddyyyy = `${splitDate[1]}/${splitDate[2]}/${splitDate[0]}`;
+  const dateObj = new Date(mmddyyyy);
+
   async function submitPost(e) {
     e.preventDefault();
 
@@ -66,18 +70,12 @@ const PostForm = () => {
   }
 
   function back() {
-    const splitDate = postId.split('-');
-    const mmddyyyy = `${splitDate[1]}/${splitDate[2]}/${splitDate[0]}`;
-    const dateObj = new Date(mmddyyyy);
     dateObj.setDate(dateObj.getDate() - 1);
     const yesterday = dateObj.toLocaleString('en-CA', { timeZone: 'America/New_York' }).split(',')[0];
     history.push(`/posts/${yesterday}`);
   }
 
   function forward() {
-    const splitDate = postId.split('-');
-    const mmddyyyy = `${splitDate[1]}/${splitDate[2]}/${splitDate[0]}`;
-    const dateObj = new Date(mmddyyyy);
     dateObj.setDate(dateObj.getDate() + 1);
     const yesterday = dateObj.toLocaleString('en-CA', { timeZone: 'America/New_York' }).split(',')[0];
     history.push(`/posts/${yesterday}`);
@@ -256,7 +254,7 @@ const PostForm = () => {
               <div onClick={back} className="text-4xl w-10">
                 ⬅
               </div>
-              <button type="submit" className="block w-40 border-gray-50 border-2 my-4 mx-auto py-2">
+              <button type="submit" className="block w-40 border-green-600 text-green-600 font-bold text-xl border-2 my-4 mx-auto py-2">
                 Save
               </button>
               <div onClick={forward} className="text-4xl w-10">

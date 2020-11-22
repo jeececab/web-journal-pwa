@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import PostsList from '../components/Posts/PostsList';
 import PostForm from '../components/Posts/PostForm';
