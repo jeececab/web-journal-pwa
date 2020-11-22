@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import PostsList from '../components/Posts/PostsList';
-import PostForm from '../components/Posts/PostForm';
+import PostsList from '../components/Posts/PostsList/PostsList';
+import PostForm from '../components/Posts/PostForm/PostForm';
 
 const Posts = () => {
   let match = useRouteMatch();

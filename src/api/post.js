@@ -17,9 +17,22 @@ export const createPost = async payload => {
   }
 };
 
-export const fetchPost = async _id => {
+export const fetchPost = async date_title => {
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/posts/${_id}`, { credentials: 'include' });
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/posts/${date_title}`, { credentials: 'include' });
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export const fetchUserPosts = async ({ limit, skip, sort }) => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/posts?limit=${limit}&skip=${skip}&sort=${sort}`, {
+      credentials: 'include'
+    });
     const data = await response.json();
 
     return data;

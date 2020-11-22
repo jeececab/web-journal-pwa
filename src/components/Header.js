@@ -16,13 +16,31 @@ const Header = () => {
         <nav className="block ml-auto">
           <ul className="flex">
             <li>
-              <NavLink exact to="/posts" className="block py-1 px-4 hover:bg-green-700" activeClassName="border-b-2 bg-green-700">
+              <NavLink
+                exact
+                to="/posts"
+                className="block py-1 px-4 hover:bg-green-700"
+                activeClassName="border-b-2 bg-green-700 shadow-inner"
+              >
                 Posts
               </NavLink>
             </li>
             <li>
-              <NavLink to="/posts/new" className="block py-1 px-4 hover:bg-green-700" activeClassName="border-b-2 bg-green-700">
+              <NavLink
+                to="/posts/new"
+                className="block py-1 px-4 hover:bg-green-700"
+                activeClassName="border-b-2 bg-green-700 shaddow-inner"
+              >
                 New
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/stats"
+                className="block py-1 px-4 hover:bg-green-700"
+                activeClassName="border-b-2 bg-green-700 shaddow-inner"
+              >
+                Stats
               </NavLink>
             </li>
           </ul>

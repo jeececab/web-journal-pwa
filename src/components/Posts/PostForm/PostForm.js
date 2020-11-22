@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { createPost, fetchPost, updatePost } from '../../api/post';
+import { createPost, fetchPost, updatePost } from '../../../api/post';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
-import LoadingSpinner from '../LoadingSpinner';
+import LoadingSpinner from '../../LoadingSpinner';
 
 const PostForm = () => {
-  const { postId } = useParams();
+  let { postId } = useParams();
   const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [saved, setSaved] = useState(false);
   const [date, setDate] = useState('');
+  const [mode, setMode] = useState(null);
   const defaultDay = {
-    _id: '',
+    date_title: '',
     notes: '',
     book_title: '',
     book_page_count: 0,
@@ -22,6 +23,7 @@ const PostForm = () => {
     project_title: '',
     project_time: 0,
     meditation_time: 0,
+    wpm_count: 0,
     to_learn: ''
   };
   const [day, setDay] = useState(defaultDay);
@@ -37,10 +39,10 @@ const PostForm = () => {
 
     setLoading(true);
 
-    if (postId === 'new') {
+    if (postId === 'new' || mode === 'new') {
       const result = await createPost(day);
       if (!result.post) return setError(result.error);
-      history.push(`/posts/${result.post._id}`);
+      history.push(`/posts/${result.post.date_title}`);
       setTimeout(() => {
         setSaved(false);
       }, 3000);
@@ -53,19 +55,22 @@ const PostForm = () => {
     }
     setLoading(false);
     setSaved(true);
+    setError(null);
   }
 
-  async function getPost(_id) {
+  async function getPost(date_title) {
     setLoading(true);
 
-    const result = await fetchPost(_id);
+    const result = await fetchPost(date_title);
 
     if (!result.post) {
-      setDate(_id);
-      setDay(defaultDay);
+      setDate(date_title);
+      setDay({ ...defaultDay, date_title });
+      setMode('new');
     } else {
       setDay(result.post);
-      setDate(result.post._id);
+      setDate(result.post.date_title);
+      setMode(null);
     }
 
     setLoading(false);
@@ -86,7 +91,7 @@ const PostForm = () => {
   useEffect(() => {
     if (postId === 'new') {
       setDate(today);
-      setDay({ ...day, _id: today });
+      setDay({ ...day, date_title: today });
       getPost(today);
     } else {
       if (postId > today) {
@@ -190,20 +195,6 @@ const PostForm = () => {
             </p>
 
             <p>
-              <label htmlFor="meditation_time">How long I meditated (minutes):</label>
-              <input
-                id="meditation_time"
-                value={day.meditation_time}
-                onChange={e => setDay({ ...day, meditation_time: Number(e.target.value) })}
-                className="w-full mb-3 mx-auto px-2 py-1 text-gray-800"
-                name="meditation_time"
-                placeholder="How long I meditated"
-                type="number"
-                min="0"
-              />
-            </p>
-
-            <p>
               <label htmlFor="project_title">The project I'm working on:</label>
               <input
                 id="project_title"
@@ -226,6 +217,34 @@ const PostForm = () => {
                 className="w-full mb-3 mx-auto px-2 py-1 text-gray-800"
                 name="project_time"
                 placeholder="How long I worked on the project"
+                type="number"
+                min="0"
+              />
+            </p>
+
+            <p>
+              <label htmlFor="meditation_time">How long I meditated (minutes):</label>
+              <input
+                id="meditation_time"
+                value={day.meditation_time}
+                onChange={e => setDay({ ...day, meditation_time: Number(e.target.value) })}
+                className="w-full mb-3 mx-auto px-2 py-1 text-gray-800"
+                name="meditation_time"
+                placeholder="How long I meditated"
+                type="number"
+                min="0"
+              />
+            </p>
+
+            <p>
+              <label htmlFor="wpm_count">Word per minute count:</label>
+              <input
+                id="wpm_count"
+                value={day.wpm_count}
+                onChange={e => setDay({ ...day, wpm_count: Number(e.target.value) })}
+                className="w-full mb-3 mx-auto px-2 py-1 text-gray-800"
+                name="wpm_count"
+                placeholder="Word per minute count"
                 type="number"
                 min="0"
               />
