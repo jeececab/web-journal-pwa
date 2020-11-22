@@ -4,13 +4,13 @@ import { IoIosJournal } from 'react-icons/io';
 
 const Header = () => {
   return (
-    <div className="fixed top-0 left-0 w-full text-xl bg-green-600 shadow-lg">
+    <div className="fixed top-0 left-0 w-full text-xl bg-green-600">
       <div className="flex justify-between items-center container mx-auto max-w-6xl">
         <Link to="/" className="flex items-center">
           <span className="text-2xl ml-2">
             <IoIosJournal />
           </span>
-          <h1 className="block ml-1">Web Journal</h1>
+          <h1 className="block ml-1 journal-logo">Web Journal</h1>
         </Link>
 
         <nav className="block ml-auto">

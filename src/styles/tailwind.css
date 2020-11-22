@@ -32075,6 +32075,16 @@ body {
   animation: bounce 1s infinite;
 }
 
+.journal-logo {
+  display: none;
+}
+
+@media (min-width: 410px) {
+  .journal-logo {
+    display: inline-block;
+  }
+}
+
 /* Loading spinner */
 
 .lds-ellipsis {

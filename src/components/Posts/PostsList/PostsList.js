@@ -3,19 +3,24 @@ import { fetchUserPosts } from '../../../api/post';
 import PostsContext from '../../../contexts/PostsContext';
 import LoadingSpinner from '../../LoadingSpinner';
 import PostsListTable from './PostsListTable';
+import Pagination from './Pagination';
 
 const PostsList = () => {
   const [posts, setPosts] = useState(null);
+  const [meta, setMeta] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [options, setOptions] = useState({ limit: 2, skip: 0, sort: 'desc' });
 
   async function setPostsList(options) {
+    setOptions(options);
     const result = await fetchUserPosts(options);
 
     if (!result.posts) {
       setError('Failed to fetch posts');
     } else {
       setPosts(result.posts);
+      setMeta(result.meta);
       setError(null);
     }
 
@@ -23,11 +28,7 @@ const PostsList = () => {
   }
 
   useEffect(() => {
-    const limit = 10;
-    const skip = 0;
-    const sort = 'desc';
-
-    setPostsList({ limit, skip, sort });
+    setPostsList(options);
   }, []);
 
   return (
@@ -37,8 +38,9 @@ const PostsList = () => {
       {!loading && error && <p>{error}</p>}
 
       {!loading && (
-        <PostsContext.Provider value={{ posts, setPostsList }}>
+        <PostsContext.Provider value={{ posts, setPostsList, meta, options }}>
           <PostsListTable />
+          <Pagination />
         </PostsContext.Provider>
       )}
     </>

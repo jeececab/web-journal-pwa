@@ -18,17 +18,6 @@ const PostsListTaleItem = ({ post }) => {
           </h2>
         </Link>
 
-        {post.notes && (
-          <p>
-            {notes.map(note => (
-              <>
-                {note}
-                <br />
-              </>
-            ))}
-          </p>
-        )}
-
         {post.book_title && (
           <p className="flex items-center">
             <span className="mr-2">
@@ -43,15 +32,17 @@ const PostsListTaleItem = ({ post }) => {
             <span className="mr-2">
               <FaVideo />
             </span>
-            <a
-              href={post.video_link}
-              target="_blank"
-              rel="noopenner noreferrer"
-              className="underline hover:text-gray-500"
-            >
-              {post.video_title}
-            </a>
-            &nbsp;(watched {post.video_time_count} min)
+            <span>
+              <a
+                href={post.video_link}
+                target="_blank"
+                rel="noopenner noreferrer"
+                className="underline hover:text-gray-500"
+              >
+                {post.video_title}
+              </a>
+              &nbsp;(watched {post.video_time_count} min)
+            </span>
           </p>
         )}
 
@@ -82,15 +73,30 @@ const PostsListTaleItem = ({ post }) => {
           </p>
         )}
 
-        {post.to_learn && (
-          <p className="mt-1">
-            <span className="font-bold">To learn:</span>
+        {post.notes && (
+          <div className="mt-1">
+            <span className="block font-bold">Notes:</span>
             <ul className="pl-6">
-              {to_learn.map(el => (
-                <li className="list-disc">{el}</li>
+              {notes.map((note, i) => (
+                <li key={i} className="list-disc">
+                  {note}
+                </li>
               ))}
             </ul>
-          </p>
+          </div>
+        )}
+
+        {post.to_learn && (
+          <div className="mt-1">
+            <span className="font-bold">To learn:</span>
+            <ul className="pl-6">
+              {to_learn.map((el, i) => (
+                <li key={i} className="list-disc">
+                  {el}
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
     </li>

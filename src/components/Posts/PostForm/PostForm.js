@@ -272,7 +272,7 @@ const PostForm = () => {
             )}
 
             <div className="flex items-center">
-              <div onClick={back} className="text-5xl w-10 text-green-600 hover:text-green-500 cursor-pointer">
+              <div onClick={back} className="text-4xl w-10 text-green-600 hover:text-green-500 cursor-pointer">
                 <FaArrowAltCircleLeft />
               </div>
               <button
@@ -281,7 +281,7 @@ const PostForm = () => {
               >
                 Save
               </button>
-              <div onClick={forward} className="text-5xl w-10 text-green-600 hover:text-green-500 cursor-pointer">
+              <div onClick={forward} className="text-4xl w-10 text-green-600 hover:text-green-500 cursor-pointer">
                 {postId < today && <FaArrowAltCircleRight />}
               </div>
             </div>
