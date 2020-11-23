@@ -29,6 +29,7 @@ const PostsList = () => {
 
   useEffect(() => {
     setPostsList(options);
+    // eslint-disable-next-line
   }, []);
 
   return (
