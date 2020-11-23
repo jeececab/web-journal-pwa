@@ -17,13 +17,13 @@ const Home = () => {
         {!user && (
           <>
             <Link
-              className="block w-40 font-bold border-green-600 border-2 my-4 mx-auto py-2 bg-green-600 text-gray-800"
+              className="block w-40 font-bold border-green-600 hover:border-green-500 border-2 my-4 mx-auto py-2 bg-green-600 hover:bg-green-500 text-gray-800"
               to="/signup"
             >
               Sign up
             </Link>
             <Link
-              className="block w-40 font-bold border-green-600 text-green-600 border-2 my-4 mx-auto py-2"
+              className="block w-40 font-bold border-green-600 hover:border-green-500 text-green-600 hover:text-green-500 border-2 my-4 mx-auto py-2"
               to="/login"
             >
               Login
@@ -33,22 +33,23 @@ const Home = () => {
         {user && (
           <>
             <Link
-              className="block w-40 font-bold border-green-600 border-2 my-4 mx-auto py-2 bg-green-600 text-gray-800"
+              className="block w-40 font-bold border-green-600 hover:border-green-500 border-2 my-4 mx-auto py-2 bg-green-600 hover:bg-green-500 text-gray-800"
               to="/posts/new"
             >
               Add post
             </Link>
             <Link
-              className="block w-40 font-bold border-green-600 text-green-600 border-2 my-4 mx-auto py-2"
+              className="block w-40 font-bold border-green-600 hover:border-green-500 text-green-600 hover:text-green-500 border-2 my-4 mx-auto py-2"
               to="/posts"
             >
               See posts
             </Link>
             <button
               onClick={() => logout()}
-              className="w-40 font-bold border-green-600 text-green-600 border-2 my-4 mx-auto py-2 flex items-center justify-center"
+              className="w-40 font-bold border-green-600 hover:border-green-500 text-green-600 hover:text-green-500 border-2 my-4 mx-auto py-2 flex items-center justify-center"
             >
-              <span className="block mr-2">Log out</span><FiLogOut />
+              <span className="block mr-2">Log out</span>
+              <FiLogOut />
             </button>
           </>
         )}
