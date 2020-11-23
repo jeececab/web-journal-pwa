@@ -20,7 +20,7 @@ const Home = () => {
             >
               Sign up
             </Link>
-            <Link className="block w-40 font-bold border-green-600 border-2 my-4 mx-auto py-2" to="/login">
+            <Link className="block w-40 font-bold border-green-600 text-green-600 border-2 my-4 mx-auto py-2" to="/login">
               Login
             </Link>
           </>
