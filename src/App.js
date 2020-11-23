@@ -8,6 +8,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Posts from './pages/Posts';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Stats from './pages/Stats';
 import Header from './components/Header';
 import LoadingSpinner from './components/LoadingSpinner';
 
@@ -47,6 +48,9 @@ const App = () => {
               </Route>
               <PrivateRoute path="/posts">
                 <Posts />
+              </PrivateRoute>
+              <PrivateRoute path="/stats">
+                <Stats />
               </PrivateRoute>
             </div>
           </Router>

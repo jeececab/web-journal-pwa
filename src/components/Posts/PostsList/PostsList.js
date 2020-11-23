@@ -10,7 +10,7 @@ const PostsList = () => {
   const [meta, setMeta] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [options, setOptions] = useState({ limit: 2, skip: 0, sort: 'desc' });
+  const [options, setOptions] = useState({ limit: 7, skip: 0, sort: 'desc' });
 
   async function setPostsList(options) {
     setOptions(options);

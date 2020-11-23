@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import AuthContext from '../contexts/AuthContext';
 import { Link, NavLink } from 'react-router-dom';
 import { IoIosJournal } from 'react-icons/io';
+import { FiLogOut } from 'react-icons/fi';
+import { logout } from '../api/user';
 
 const Header = () => {
   const { user } = useContext(AuthContext);
@@ -46,6 +48,9 @@ const Header = () => {
                 >
                   Stats
                 </NavLink>
+              </li>
+              <li className="flex items-center cursor-pointer hover:bg-green-700">
+                <button onClick={() => logout()} className="py-2 px-4"><FiLogOut /></button>
               </li>
             </ul>
           </nav>
