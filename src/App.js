@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import ErrorBoundary from './components/ErrorBoundary';
 import AuthContext from './contexts/AuthContext';
 import { me } from './api/user';
-
 import Home from './pages/Home';
 import PrivateRoute from './components/PrivateRoute';
 import Posts from './pages/Posts';
@@ -31,34 +31,36 @@ const App = () => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      {!loading && (
-        <div className="container mx-auto max-w-6xl">
-          <Router>
-            <Header />
-            <div className="pt-12">
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/signup">
-                <Signup />
-              </Route>
-              <PrivateRoute path="/posts">
-                <Posts />
-              </PrivateRoute>
-              <PrivateRoute path="/stats">
-                <Stats />
-              </PrivateRoute>
-            </div>
-          </Router>
-        </div>
-      )}
+    <ErrorBoundary>
+      <AuthContext.Provider value={{ user, setUser }}>
+        {!loading && (
+          <div className="container mx-auto max-w-6xl">
+            <Router>
+              <Header />
+              <div className="pt-12">
+                <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route path="/login">
+                  <Login />
+                </Route>
+                <Route path="/signup">
+                  <Signup />
+                </Route>
+                <PrivateRoute path="/posts">
+                  <Posts />
+                </PrivateRoute>
+                <PrivateRoute path="/stats">
+                  <Stats />
+                </PrivateRoute>
+              </div>
+            </Router>
+          </div>
+        )}
 
-      {loading && <LoadingSpinner />}
-    </AuthContext.Provider>
+        {loading && <LoadingSpinner />}
+      </AuthContext.Provider>
+    </ErrorBoundary>
   );
 };
 
