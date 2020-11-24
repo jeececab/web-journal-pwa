@@ -9,7 +9,7 @@ const Header = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <div className="fixed top-0 left-0 w-full text-xl bg-green-600">
+    <div className="fixed top-0 left-0 w-full text-xl bg-green-600 z-50">
       <div className="flex justify-between items-center container mx-auto max-w-6xl">
         <Link to="/" className="flex items-center">
           <span className="text-2xl ml-2 py-1">

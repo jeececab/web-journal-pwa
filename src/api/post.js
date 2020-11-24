@@ -28,11 +28,16 @@ export const fetchPost = async date_title => {
   }
 };
 
-export const fetchUserPosts = async ({ limit, skip, sort }) => {
+export const fetchUserPosts = async ({ limit, skip, sort, month }) => {
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/posts?limit=${limit}&skip=${skip}&sort=${sort}`, {
-      credentials: 'include'
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/posts?limit=${limit}&skip=${skip}&sort=${sort}${
+        month ? '&month=' + month : ''
+      }`,
+      {
+        credentials: 'include'
+      }
+    );
     const data = await response.json();
 
     return data;
