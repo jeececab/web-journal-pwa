@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserPosts } from '../api/post';
-import { XAxis, CartesianGrid, YAxis, Bar, ResponsiveContainer, ComposedChart } from 'recharts';
+import { XAxis, CartesianGrid, YAxis, Bar, ResponsiveContainer, ComposedChart, Tooltip } from 'recharts';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
 
@@ -9,6 +9,7 @@ const Stats = () => {
   const [inc, setInc] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [field, setField] = useState('project_time');
   const [displayedMonth, setDisplayedMonth] = useState(null);
   const params = { limit: 31, skip: 0, sort: 'asc' };
   const now = new Date();
@@ -27,6 +28,22 @@ const Stats = () => {
     'November',
     'December'
   ];
+
+  const fieldValuelabels = {
+    project_time: 'Time (min)',
+    book_page_count: 'Pages read',
+    video_time_count: 'Time (min)',
+    wpm_count: 'Words per min',
+    meditation_time: 'Time (min)'
+  };
+
+  const toolTipLabels = {
+    project_time: 'min',
+    book_page_count: 'pages',
+    video_time_count: 'min',
+    wpm_count: 'wpm',
+    meditation_time: 'min'
+  };
 
   function getDaysInMonth(month, year) {
     const date = new Date(year, month, 1);
@@ -90,6 +107,23 @@ const Stats = () => {
     getStats({ ...params, month: `${year}-${month}` });
   }
 
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active) {
+      return (
+        <div className="custom-tooltip bg-gray-300 px-2 py-1">
+          <p>
+            {displayedMonth.split(' ')[0].substring(0, 3)} {label}
+          </p>
+          <p>
+            {payload[0].value} {toolTipLabels[payload[0].name]}
+          </p>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   useEffect(() => {
     setShits();
     //eslint-disable-next-line
@@ -102,7 +136,7 @@ const Stats = () => {
       {!loading && error && <p className="text-red-600 text-lg text-center px-2 mt-5">{error}</p>}
 
       {!loading && data && (
-        <div className="w-full relative" style={{ height: '75vh', maxHeight: '600px' }}>
+        <div className="w-full relative" style={{ height: '72vh', maxHeight: '600px' }}>
           <div className="flex items-center justify-between px-4 mt-1 mb-3">
             <span
               onClick={() => moveMonth(-1)}
@@ -119,20 +153,24 @@ const Stats = () => {
             </span>
           </div>
 
-          <div className="h-full relative right-5 max-w-5xl mx-auto" style={{ width: '100%' }}>
+          <div className="h-full relative right-5 max-w-5xl mx-auto mt-8 text-gray-800" style={{ width: '100%' }}>
+            <p className="ml-8 text-gray-400 absolute -top-6">{fieldValuelabels[field]}</p>
             <ResponsiveContainer>
               <ComposedChart width={500} height={400} data={data}>
                 <CartesianGrid stroke="#707d99" strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
-                {/*  <Legend /> */}
-                <Bar dataKey="book_page_count" fill="#8884d8" />
-                {/*  <Bar dataKey="pages" fill="#82ca9d" /> */}
+                <Tooltip content={<CustomTooltip />} />
+                {field === 'project_time' && <Bar dataKey="project_time" fill="#8884d8" />}
+                {field === 'book_page_count' && <Bar dataKey="book_page_count" fill="#8884d8" />}
+                {field === 'video_time_count' && <Bar dataKey="video_time_count" fill="#8884d8" />}
+                {field === 'wpm_count' && <Bar dataKey="wpm_count" fill="#8884d8" />}
+                {field === 'meditation_time' && <Bar dataKey="meditation_time" fill="#8884d8" />}
               </ComposedChart>
             </ResponsiveContainer>
           </div>
           <div className="w-full flex justify-center mt-1">
-            <select className="text-gray-900 text-lg py-1 px-2">
+            <select onChange={e => setField(e.target.value)} value={field} className="text-gray-900 text-lg py-1 px-2">
               <option value="project_time">Project</option>
               <option value="book_page_count">Book</option>
               <option value="video_time_count">Video</option>
