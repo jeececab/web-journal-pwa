@@ -6,6 +6,7 @@ import LoadingSpinner from '../../LoadingSpinner';
 
 const PostForm = () => {
   let { postId } = useParams();
+  const [currentId, setCurrentId] = useState(postId)
   const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,7 +40,7 @@ const PostForm = () => {
 
     setLoading(true);
 
-    if (postId === 'new' || mode === 'new') {
+    if (postId === 'new' && mode === 'new') {
       const result = await createPost(day);
       if (!result.post) return setError(result.error);
       history.push(`/posts/${result.post.date_title}`);
@@ -47,7 +48,7 @@ const PostForm = () => {
         setSaved(false);
       }, 3000);
     } else {
-      const result = await updatePost(postId, day);
+      const result = await updatePost(currentId, day);
       if (!result.post) return result.error;
       setTimeout(() => {
         setSaved(false);
@@ -70,6 +71,7 @@ const PostForm = () => {
     } else {
       setDay(result.post);
       setDate(result.post.date_title);
+      setCurrentId(date_title)
       setMode(null);
     }
 
