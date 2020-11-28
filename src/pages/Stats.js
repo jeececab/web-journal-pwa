@@ -71,18 +71,24 @@ const Stats = () => {
         return {
           name: recordedDay.date_title.split('-')[2],
           book_page_count: recordedDay.book_page_count,
+          book_title: recordedDay.book_title,
           meditation_time: recordedDay.meditation_time,
           project_time: recordedDay.project_time,
+          project_title: recordedDay.project_title,
           video_time_count: recordedDay.video_time_count,
+          video_title: recordedDay.video_title,
           wpm_count: recordedDay.wpm_count
         };
       } else {
         return {
           name: day.split('-')[2],
           book_page_count: 0,
+          book_title: '',
           meditation_time: 0,
           project_time: 0,
+          project_title: '',
           video_time_count: 0,
+          video_title: '',
           wpm_count: 0
         };
       }
@@ -109,8 +115,19 @@ const Stats = () => {
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active) {
+      console.log(payload[0]);
+      let title = '';
+      if (payload[0].name === 'book_page_count') {
+        title = payload[0].payload.book_title;
+      } else if (payload[0].name === 'project_time') {
+        title = payload[0].payload.project_title;
+      } else if (payload[0].name === 'video_time_count') {
+        title = payload[0].payload.video_title;
+      }
+
       return (
         <div className="custom-tooltip bg-gray-300 px-2 py-1">
+          {title && <p>{title}</p>}
           <p>
             {displayedMonth.split(' ')[0].substring(0, 3)} {label}
           </p>
